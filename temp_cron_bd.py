@@ -2,7 +2,7 @@ import os
 import glob
 import time
 import sqlite3
-import datetime
+from datetime import datetime
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -30,7 +30,8 @@ def read_temp():
 		return temp_c, temp_f
 
 
-cur =conn.cursor()
+conn =sqlite3.connect("weasta.sq3", detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
+cur = conn.cursor()
 cur.execute("""
 CREATE TABLE IF NOT EXISTS weatherstation(
      id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
