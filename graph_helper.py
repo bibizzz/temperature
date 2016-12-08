@@ -1,5 +1,7 @@
 import csv
 import matplotlib.pyplot as plt
+import sqlite3
+
 #import datetime
 from datetime import datetime #, date, time
 from matplotlib.dates import AutoDateFormatter, AutoDateLocator, YearLocator, MonthLocator, DateFormatter, DayLocator, HourLocator
@@ -21,6 +23,13 @@ def import_from_csv(filename):
 def import_from_sql(db_name):
     dt = []
     temp = []
+    conn = sqlite3.connect(db_name, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
+    cur =conn.cursor()
+    for row in cur.execute("select ts, temperature from weatherstation"):
+        dt.append(row[0])
+        temp.append(row[1])
+    cur.close()
+    conn.close()
     return dt, temp
 
 
@@ -47,5 +56,7 @@ def save_graph(dt, temp, filename, type = "normal"):
     ax.grid(True, which='minor')
     plt.savefig(filename)
 
-dt, temp = import_from_csv("results.csv")
-save_graph(dt, temp, "week_daysformat.png")
+#dt, temp = import_from_csv("results.csv")
+#save_graph(dt, temp, "week_daysformat.png")
+dt, temp = import_from_sql("weasta2.sq3")
+save_graph(dt, temp, "/var/www/temperature/days.png")
