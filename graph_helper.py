@@ -1,5 +1,8 @@
 import csv
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+
 import sqlite3
 
 #import datetime
@@ -46,9 +49,9 @@ def save_graph(dt, temp, filename, type = "normal"):
     ax.plot_date(dt, temp, '-')
 
     #ax.set_axis(auto)
-    ax.xaxis.set_major_locator(auto)
+    ax.xaxis.set_major_locator(days)
     ax.xaxis.set_major_formatter(daysFmt)
-    #ax.xaxis.set_minor_locator(auto)
+    ax.xaxis.set_minor_locator(hours)
     #ax.xaxis.set_minor_formatter(hoursFmt)
     ax.autoscale_view()
     ax.set_ylabel('Temperature (C)')
@@ -58,5 +61,5 @@ def save_graph(dt, temp, filename, type = "normal"):
 
 #dt, temp = import_from_csv("results.csv")
 #save_graph(dt, temp, "week_daysformat.png")
-dt, temp = import_from_sql("weasta2.sq3")
+dt, temp = import_from_sql("/home/pi/temperature/weasta2.sq3")
 save_graph(dt, temp, "/var/www/temperature/days.png")

@@ -30,7 +30,7 @@ def read_temp():
 		return temp_c, temp_f
 
 
-conn =sqlite3.connect("weasta.sq3", detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
+conn =sqlite3.connect("/home/pi/temperature/weasta2.sq3", detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
 cur = conn.cursor()
 cur.execute("""
 CREATE TABLE IF NOT EXISTS weatherstation(
@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS weatherstation(
 
 now = datetime.now()
 temperature = read_temp()[0]
+print temperature
 
 cur.execute("insert into weatherstation(place, ts, temperature) values (?, ?, ?)",
      ("DG's bedroom", now,temperature))
@@ -58,5 +59,7 @@ print "=>", row[0], type(row[0])
 print now, "=>", row[1], type(row[1])
 print  "=>", row[2], type(row[2])
 
+conn.commit()
 cur.close()
 conn.close()
+
