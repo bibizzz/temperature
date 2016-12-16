@@ -1,8 +1,5 @@
 import csv
-import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
 import sqlite3
 
 #import datetime
@@ -23,12 +20,13 @@ def import_from_csv(filename):
                 temp.append(float(row[2])/1000)
     return dt, temp
 
-def import_from_sql(db_name):
+def import_from_sql(db_name, days = 7):
     dt = []
     temp = []
     conn = sqlite3.connect(db_name, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
     cur =conn.cursor()
-    for row in cur.execute("select ts, temperature from weatherstation"):
+    now = datetime.now()
+    for row in cur.execute("select ts, temperature from weatherstation where ts BETWEEN now-days AND now"):
         dt.append(row[0])
         temp.append(row[1])
     cur.close()
@@ -61,5 +59,6 @@ def save_graph(dt, temp, filename, type = "normal"):
 
 #dt, temp = import_from_csv("results.csv")
 #save_graph(dt, temp, "week_daysformat.png")
-dt, temp = import_from_sql("/home/pi/temperature/weasta2.sq3")
-save_graph(dt, temp, "/var/www/temperature/days.png")
+dt, temp = import_from_sql("./weasta2.sq3")
+#save_graph(dt, temp, "/var/www/temperature/days.png")
+save_graph(dt, temp, "days.png")
