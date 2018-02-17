@@ -1,0 +1,14 @@
+From adafruit ds18b20
+
+Start by adding the following line to/boot/config.txt
+You can edit that file with nano by runningsudo nano /boot/config.txt and then scrolling to the bottom and
+typing it there
+dtoverlay=w1-gpio
+Then reboot withsudo reboot. When the Pi is back up and you're logged in again, type the commands you see
+below into a terminal window. When you are in the 'devices' directory, the directory starting '28-' may have a
+different name, so cd to the name of whatever directory is there.
+sudo modprobe w1-gpio
+sudo modprobe w1-therm
+cd /sys/bus/w1/devices
+ls
+cd 28-xxxx (change this to match what serial number pops up)
