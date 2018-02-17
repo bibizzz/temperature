@@ -12,3 +12,8 @@ sudo modprobe w1-therm
 cd /sys/bus/w1/devices
 ls
 cd 28-xxxx (change this to match what serial number pops up)
+
+temp.py permet de lire la température sur le sensor.
+apparemment ça fonctionne encore sur rpi3 en mettant sur le pin GPIO4 (+ gnd et vcc= 3.3V évidemment)
+
+pour la base de donnée je me souviens qu'il faut 2 scripts à lance. temp_cron_bd pour remplir la bd et un autre qui génère le graphe. graph.helper je pense.
