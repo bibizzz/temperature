@@ -1,0 +1,2 @@
+*/30 * * * * /usr/bin/python /home/pi/temperature/temp_cron_bd.py
+15 * * * * /usr/bin/python /home/pi/temperature/graph_helper.py
